@@ -68,6 +68,7 @@ import com.flamingo.predictandwin.data.GoldPrice
 import com.flamingo.predictandwin.data.PredictionDirection
 import com.flamingo.predictandwin.data.RewardMilestone
 import com.flamingo.predictandwin.data.mockMilestones
+import com.flamingo.predictandwin.ui.components.LivePriceIndicator
 import com.flamingo.predictandwin.ui.theme.BearishRed
 import com.flamingo.predictandwin.ui.theme.BearishRedDark
 import com.flamingo.predictandwin.ui.theme.BullishGreen
@@ -226,6 +227,9 @@ private fun HeaderSection(goldPrice: GoldPrice) {
                 }
             }
         }
+
+        // Live price indicator
+        LivePriceIndicator(lastUpdated = "2 min ago")
     }
 }
 
