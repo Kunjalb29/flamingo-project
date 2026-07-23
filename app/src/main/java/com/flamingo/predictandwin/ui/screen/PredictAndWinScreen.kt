@@ -56,6 +56,8 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -659,7 +661,7 @@ private fun DirectionButton(
 ) {
     val isUp = direction == PredictionDirection.UP
     val activeColor = if (isUp) BullishGreen else BearishRed
-    val darkColor = if (isUp) BullishGreenDark else BearishRedDark
+    val haptic = LocalHapticFeedback.current
 
     val borderColor by animateColorAsState(
         targetValue = if (isSelected) activeColor else SurfaceOverlay,
@@ -680,7 +682,10 @@ private fun DirectionButton(
                 color = borderColor,
                 shape = RoundedCornerShape(16.dp),
             )
-            .clickable { onClick() },
+            .clickable {
+                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                onClick()
+            },
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(
             containerColor = if (isSelected) activeColor.copy(alpha = bgAlpha) else SurfaceCard,
