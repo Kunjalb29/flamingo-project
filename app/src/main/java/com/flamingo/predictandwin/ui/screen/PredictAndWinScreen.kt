@@ -45,10 +45,13 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import kotlinx.coroutines.delay
+import com.flamingo.predictandwin.ui.components.shimmerEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -99,6 +102,12 @@ fun PredictAndWinScreen() {
     var selectedDirection by remember { mutableStateOf<PredictionDirection?>(null) }
     var showBottomSheet by remember { mutableStateOf(false) }
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    var isLoading by remember { mutableStateOf(true) }
+
+    LaunchedEffect(Unit) {
+        delay(1200)
+        isLoading = false
+    }
 
     // ── Mock data ──────────────────────────────────────────────────────────────
     val goldPrice = remember { GoldPrice() }
@@ -111,52 +120,56 @@ fun PredictAndWinScreen() {
             .fillMaxSize()
             .background(SurfaceDark),
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
-                .padding(horizontal = 20.dp)
-                .padding(top = 16.dp, bottom = 32.dp),
-            verticalArrangement = Arrangement.spacedBy(20.dp),
-        ) {
-            // 1. Header & Gold Price
-            HeaderSection(goldPrice = goldPrice)
-
-            // 2. 7-Day Challenge Card
-            ChallengeCard(progress = challengeProgress)
-
-            GradientDivider(thickness = 1.dp)
-
-            // 3. Reward Milestones
-            RewardMilestonesRow(milestones = milestones, currentCorrect = challengeProgress.correctCount)
-
-            // 4. Community Sentiment
-            CommunitySentimentCard(sentiment = sentiment)
-
-            GradientDivider(thickness = 1.dp)
-
-            // 5. Prediction Selection
-            PredictionSelector(
-                selected = selectedDirection,
-                onSelect = { selectedDirection = it },
-            )
-
-            // 6. CTA Button
-            PredictButton(
-                enabled = selectedDirection != null,
-                onClick = { showBottomSheet = true },
-            )
-
-            // 7. Disclaimer
-            Text(
-                text = Constants.DISCLAIMER_TEXT,
-                style = MaterialTheme.typography.labelSmall,
-                color = TextMuted,
-                textAlign = TextAlign.Center,
+        if (isLoading) {
+            PredictAndWinSkeletonScreen()
+        } else {
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 8.dp),
-            )
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+                    .padding(horizontal = 20.dp)
+                    .padding(top = 16.dp, bottom = 32.dp),
+                verticalArrangement = Arrangement.spacedBy(20.dp),
+            ) {
+                // 1. Header & Gold Price
+                HeaderSection(goldPrice = goldPrice)
+
+                // 2. 7-Day Challenge Card
+                ChallengeCard(progress = challengeProgress)
+
+                GradientDivider(thickness = 1.dp)
+
+                // 3. Reward Milestones
+                RewardMilestonesRow(milestones = milestones, currentCorrect = challengeProgress.correctCount)
+
+                // 4. Community Sentiment
+                CommunitySentimentCard(sentiment = sentiment)
+
+                GradientDivider(thickness = 1.dp)
+
+                // 5. Prediction Selection
+                PredictionSelector(
+                    selected = selectedDirection,
+                    onSelect = { selectedDirection = it },
+                )
+
+                // 6. CTA Button
+                PredictButton(
+                    enabled = selectedDirection != null,
+                    onClick = { showBottomSheet = true },
+                )
+
+                // 7. Disclaimer
+                Text(
+                    text = Constants.DISCLAIMER_TEXT,
+                    style = MaterialTheme.typography.labelSmall,
+                    color = TextMuted,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 8.dp),
+                )
+            }
         }
 
         // 7. Success Bottom Sheet
@@ -862,6 +875,108 @@ private fun SuccessBottomSheet(
                 )
             }
         }
+    }
+}
+
+// ════════════════════════════════════════════════════════════════════════════════
+// Skeleton loading screen
+// ════════════════════════════════════════════════════════════════════════════════
+
+@Composable
+private fun PredictAndWinSkeletonScreen() {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 20.dp)
+            .padding(top = 16.dp, bottom = 32.dp),
+        verticalArrangement = Arrangement.spacedBy(20.dp),
+    ) {
+        // Header Skeleton
+        Column(modifier = Modifier.fillMaxWidth()) {
+            Box(
+                modifier = Modifier
+                    .width(180.dp)
+                    .height(36.dp)
+                    .clip(RoundedCornerShape(8.dp))
+                    .shimmerEffect()
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Box(
+                modifier = Modifier
+                    .width(280.dp)
+                    .height(18.dp)
+                    .clip(RoundedCornerShape(4.dp))
+                    .shimmerEffect()
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            // Gold price card skeleton
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(96.dp)
+                    .clip(RoundedCornerShape(16.dp))
+                    .shimmerEffect()
+            )
+        }
+
+        // Challenge card skeleton
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(200.dp)
+                .clip(RoundedCornerShape(16.dp))
+                .shimmerEffect()
+        )
+
+        // Milestones row skeleton
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            repeat(3) {
+                Box(
+                    modifier = Modifier
+                        .weight(1f)
+                        .height(110.dp)
+                        .clip(RoundedCornerShape(14.dp))
+                        .shimmerEffect()
+                )
+            }
+        }
+
+        // Sentiment card skeleton
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(130.dp)
+                .clip(RoundedCornerShape(16.dp))
+                .shimmerEffect()
+        )
+
+        // Selector buttons skeleton
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            repeat(2) {
+                Box(
+                    modifier = Modifier
+                        .weight(1f)
+                        .height(100.dp)
+                        .clip(RoundedCornerShape(16.dp))
+                        .shimmerEffect()
+                )
+            }
+        }
+
+        // CTA skeleton
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(56.dp)
+                .clip(RoundedCornerShape(16.dp))
+                .shimmerEffect()
+        )
     }
 }
 
