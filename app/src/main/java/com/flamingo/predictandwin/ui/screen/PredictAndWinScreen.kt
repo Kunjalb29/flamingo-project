@@ -63,6 +63,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.flamingo.predictandwin.data.ChallengeProgress
 import com.flamingo.predictandwin.data.CommunitySentiment
+import com.flamingo.predictandwin.data.Constants
 import com.flamingo.predictandwin.data.GoldPrice
 import com.flamingo.predictandwin.data.PredictionDirection
 import com.flamingo.predictandwin.data.RewardMilestone
@@ -158,7 +159,7 @@ fun PredictAndWinScreen() {
 private fun HeaderSection(goldPrice: GoldPrice) {
     Column(modifier = Modifier.fillMaxWidth()) {
         Text(
-            text = "Predict & Win",
+            text = Constants.SCREEN_TITLE,
             style = MaterialTheme.typography.headlineLarge,
             color = GoldPrimary,
         )
@@ -166,7 +167,7 @@ private fun HeaderSection(goldPrice: GoldPrice) {
         Spacer(modifier = Modifier.height(4.dp))
 
         Text(
-            text = "Forecast tomorrow's gold price movement",
+            text = Constants.SCREEN_SUBTITLE,
             style = MaterialTheme.typography.bodyMedium,
             color = TextSecondary,
         )
@@ -196,7 +197,7 @@ private fun HeaderSection(goldPrice: GoldPrice) {
             ) {
                 Column {
                     Text(
-                        text = "Current Gold Price",
+                        text = Constants.GOLD_PRICE_LABEL,
                         style = MaterialTheme.typography.labelMedium,
                         color = TextMuted,
                     )
@@ -247,7 +248,7 @@ private fun ChallengeCard(progress: ChallengeProgress) {
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
-                    text = "🎯  7-Day Challenge",
+                    text = Constants.CHALLENGE_TITLE,
                     style = MaterialTheme.typography.titleMedium,
                     color = TextPrimary,
                 )
@@ -330,19 +331,19 @@ private fun ChallengeCard(progress: ChallengeProgress) {
             ) {
                 StatChip(
                     icon = Icons.Default.CheckCircle,
-                    label = "Correct",
+                    label = Constants.STAT_CORRECT,
                     value = "${progress.correctCount}",
                     tint = BullishGreen,
                 )
                 StatChip(
                     icon = Icons.Default.Close,
-                    label = "Wrong",
+                    label = Constants.STAT_WRONG,
                     value = "${progress.wrongCount}",
                     tint = BearishRed,
                 )
                 StatChip(
                     icon = Icons.Default.LocalFireDepartment,
-                    label = "Streak",
+                    label = Constants.STAT_STREAK,
                     value = "${progress.currentStreak}",
                     tint = GoldPrimary,
                 )
@@ -396,7 +397,7 @@ private fun StatChip(
 private fun RewardMilestonesRow(milestones: List<RewardMilestone>, currentCorrect: Int) {
     Column {
         Text(
-            text = "🏅  Reward Milestones",
+            text = Constants.MILESTONES_TITLE,
             style = MaterialTheme.typography.titleMedium,
             color = TextPrimary,
         )
@@ -493,7 +494,7 @@ private fun CommunitySentimentCard(sentiment: CommunitySentiment) {
     ) {
         Column(modifier = Modifier.padding(20.dp)) {
             Text(
-                text = "📊  Community Sentiment",
+                text = Constants.SENTIMENT_TITLE,
                 style = MaterialTheme.typography.titleMedium,
                 color = TextPrimary,
             )
@@ -508,13 +509,13 @@ private fun CommunitySentimentCard(sentiment: CommunitySentiment) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.TrendingUp,
-                        contentDescription = "Bullish",
+                        contentDescription = Constants.BULLISH_LABEL,
                         tint = BullishGreen,
                         modifier = Modifier.size(18.dp),
                     )
                     Spacer(modifier = Modifier.width(4.dp))
                     Text(
-                        text = "Bullish",
+                        text = Constants.BULLISH_LABEL,
                         style = MaterialTheme.typography.labelMedium,
                         color = BullishGreen,
                     )
@@ -535,14 +536,14 @@ private fun CommunitySentimentCard(sentiment: CommunitySentiment) {
                     )
                     Spacer(modifier = Modifier.width(6.dp))
                     Text(
-                        text = "Bearish",
+                        text = Constants.BEARISH_LABEL,
                         style = MaterialTheme.typography.labelMedium,
                         color = BearishRed,
                     )
                     Spacer(modifier = Modifier.width(4.dp))
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.TrendingDown,
-                        contentDescription = "Bearish",
+                        contentDescription = Constants.BEARISH_LABEL,
                         tint = BearishRed,
                         modifier = Modifier.size(18.dp),
                     )
@@ -588,7 +589,7 @@ private fun CommunitySentimentCard(sentiment: CommunitySentiment) {
             Spacer(modifier = Modifier.height(8.dp))
 
             Text(
-                text = "Based on 12,847 predictions today",
+                text = Constants.SENTIMENT_FOOTER,
                 style = MaterialTheme.typography.labelSmall,
                 color = TextMuted,
                 modifier = Modifier.fillMaxWidth(),
@@ -609,7 +610,7 @@ private fun PredictionSelector(
 ) {
     Column {
         Text(
-            text = "🔮  Your Prediction",
+            text = Constants.PREDICTION_TITLE,
             style = MaterialTheme.typography.titleMedium,
             color = TextPrimary,
         )
@@ -722,7 +723,7 @@ private fun PredictButton(
         ),
     ) {
         Text(
-            text = "Predict & Invest ₹50",
+            text = Constants.CTA_LABEL,
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold,
         )
@@ -775,7 +776,7 @@ private fun SuccessBottomSheet(
             Spacer(modifier = Modifier.height(20.dp))
 
             Text(
-                text = "Prediction Submitted!",
+                text = Constants.SUCCESS_TITLE,
                 style = MaterialTheme.typography.headlineMedium,
                 color = TextPrimary,
                 textAlign = TextAlign.Center,
@@ -810,7 +811,7 @@ private fun SuccessBottomSheet(
             Spacer(modifier = Modifier.height(12.dp))
 
             Text(
-                text = "₹50 Digital Gold has been invested.\nResults will be announced tomorrow at 10 AM.",
+                text = Constants.SUCCESS_BODY,
                 style = MaterialTheme.typography.bodyMedium,
                 color = TextSecondary,
                 textAlign = TextAlign.Center,
@@ -830,7 +831,7 @@ private fun SuccessBottomSheet(
                 ),
             ) {
                 Text(
-                    text = "Got it!",
+                    text = Constants.SUCCESS_DISMISS,
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
                 )
