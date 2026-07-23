@@ -71,6 +71,7 @@ import com.flamingo.predictandwin.data.PredictionDirection
 import com.flamingo.predictandwin.data.RewardMilestone
 import com.flamingo.predictandwin.data.mockMilestones
 import com.flamingo.predictandwin.ui.components.LivePriceIndicator
+import com.flamingo.predictandwin.ui.components.GradientDivider
 import com.flamingo.predictandwin.ui.theme.BearishRed
 import com.flamingo.predictandwin.ui.theme.BearishRedDark
 import com.flamingo.predictandwin.ui.theme.BullishGreen
@@ -124,11 +125,15 @@ fun PredictAndWinScreen() {
             // 2. 7-Day Challenge Card
             ChallengeCard(progress = challengeProgress)
 
+            GradientDivider(thickness = 1.dp)
+
             // 3. Reward Milestones
             RewardMilestonesRow(milestones = milestones, currentCorrect = challengeProgress.correctCount)
 
             // 4. Community Sentiment
             CommunitySentimentCard(sentiment = sentiment)
+
+            GradientDivider(thickness = 1.dp)
 
             // 5. Prediction Selection
             PredictionSelector(
