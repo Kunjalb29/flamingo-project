@@ -139,6 +139,17 @@ fun PredictAndWinScreen() {
                 enabled = selectedDirection != null,
                 onClick = { showBottomSheet = true },
             )
+
+            // 7. Disclaimer
+            Text(
+                text = Constants.DISCLAIMER_TEXT,
+                style = MaterialTheme.typography.labelSmall,
+                color = TextMuted,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 8.dp),
+            )
         }
 
         // 7. Success Bottom Sheet
